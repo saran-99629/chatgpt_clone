@@ -124,6 +124,31 @@
         </div>`;
         messageList.appendChild(messageItem);
         messageInput.value = '';
+
+        fetch('',{
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+          body : new URLSearchParams({
+            'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'message': message
+          })
+        })
+        .then(respose => respose.json())
+        .then(data => {
+          const respose = data.respose;
+          const messageItem = document.createElement('li');
+          messageItem.classList.add('message', 'received');
+          messageItem.innerHTML = 
+          `<div class="message-text">
+            <div class="message-sender">
+              <b>AI chatBot</b>
+            </div>
+            <div class="message-content">
+              ${respose}
+            </div>
+          </div>`;
+          messageList.appendChild(messageItem);
+        });
     })
     <script/>
 
